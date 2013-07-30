@@ -44,7 +44,6 @@ class ExecuteRpc(RPC):
 class Command(RPC):
     def request(self, command=None, format='xml'):
         node = new_ele('command', {'format':format})
-        node.text = command
         return self._request(node)
 
 class Reboot(RPC):
@@ -56,3 +55,15 @@ class Halt(RPC):
     def request(self):
         node = new_ele('request-halt')
         return self._request(node)
+
+class OpenConfiguration(RPC):
+    def request(self):
+        node = new_ele('open-configuration')
+        private = sub_ele(node, 'private')
+        return self._request(node)
+
+class CloseConfiguration(RPC):
+    def request(self):
+        node = new_ele('close-configuration')
+        return self._request(node)
+
