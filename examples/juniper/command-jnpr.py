@@ -19,7 +19,7 @@ def connect(host, port, user, password):
     print 'show version'
     print '*' * 30
     result = conn.command('show version', format='text')
-    print result.xpath('output')[0].text
+    print result.tostring
 
     print 'bgp summary'
     print '*' * 30
@@ -27,4 +27,4 @@ def connect(host, port, user, password):
     print result.tostring
 
 if __name__ == '__main__':
-    connect('router', '22', 'netconf', 'juniper!')
+    connect('router', '22', 'netconf', 'Juniper!')
