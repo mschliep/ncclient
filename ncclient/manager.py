@@ -65,7 +65,7 @@ OPERATIONS = {
     "halt": operations.Halt,
     "open_configuration": operations.OpenConfiguration,
     "close_configuration": operations.CloseConfiguration,
-    "commit_configuration": operations.CloseConfiguration,
+    "commit_configuration": operations.CommitConfiguration,
 }
 """Dictionary of method names and corresponding :class:`~ncclient.operations.RPC` subclasses. It is used to lookup operations, e.g. `get_config` is mapped to :class:`~ncclient.operations.GetConfig`. It is thus possible to add additional operations to the :class:`Manager` API."""
 
