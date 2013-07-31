@@ -117,8 +117,8 @@ class RPCReply(object):
         # Per RFC 4741 an <ok/> tag is sent when there are no errors or warnings
         ok = root.find(qualify("ok"))
         if ok is None:
-            # Create RPCError objects from <rpc-error> elements
-            error = root.find(qualify("rpc-error"))
+            # Create RPCError objects from <rpc-error> elements anywhere in the reply
+            error = root.find(".//"+qualify("rpc-error"))
             if error is not None:
                 for err in root.getiterator(error.tag):
                     # Process a particular <rpc-error>
