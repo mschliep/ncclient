@@ -66,3 +66,12 @@ class CloseConfiguration(RPC):
         node = new_ele('close-configuration')
         return self._request(node)
 
+class CommitConfiguration(RPC):
+    def request(self, check=False, confirmed=False, confirm_timeout=None):
+        node = new_ele('commit-configuration')
+        if check:
+            sub_ele(node, 'check')
+        elif confirmed:
+            sub_ele(node, 'confirmed')
+            sub_ele(node, 'confirm-timeout').text(confirm_timeout)
+        return self._request(node)
