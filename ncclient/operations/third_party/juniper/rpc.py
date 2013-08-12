@@ -1,5 +1,7 @@
 from ncclient.xml_ import *
 
+from lxml import etree
+
 from ncclient.operations.rpc import RPC
 from ncclient.operations.rpc import RPCReply
 from ncclient.operations.rpc import RPCError
@@ -12,9 +14,11 @@ class GetConfiguration(RPC):
         return self._request(node)
 
 class LoadConfiguration(RPC):
-    def request(self, format='xml', action='merge',
+    def request(self, format='xml', rollback=None, action='merge',
             target='candidate', config=None):
-        if config is not None:
+        if rollback is not None:
+            node = new_ele('load-configuration', {'rollback': str(rollback)})
+        elif config is not None:
             if type(config) == list:
                 config = '\n'.join(config)
             if action == 'set':
@@ -27,7 +31,7 @@ class LoadConfiguration(RPC):
                 config_node = sub_ele(node, 'configuration-text').text = config
             if action == 'set' and format == 'text':
                 config_node = sub_ele(node, 'configuration-set').text = config
-            return self._request(node)
+        return self._request(node)
 
 class CompareConfiguration(RPC):
     def request(self, rollback=0):
@@ -73,7 +77,8 @@ class CommitConfiguration(RPC):
             sub_ele(node, 'check')
         elif confirmed:
             sub_ele(node, 'confirmed')
-            sub_ele(node, 'confirm-timeout').text = confirm_timeout
+            if confirm_timeout is not None:
+                sub_ele(node, 'confirm-timeout').text = confirm_timeout
         if log is not None and len(log) > 0:
             sub_ele(node, 'log').text = log
         return self._request(node)
