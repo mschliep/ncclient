@@ -1,7 +1,5 @@
 from ncclient.xml_ import *
 
-from lxml import etree
-
 from ncclient.operations.rpc import RPC
 from ncclient.operations.rpc import RPCReply
 from ncclient.operations.rpc import RPCError
@@ -78,7 +76,7 @@ class CommitConfiguration(RPC):
         elif confirmed:
             sub_ele(node, 'confirmed')
             if confirm_timeout is not None:
-                sub_ele(node, 'confirm-timeout').text = confirm_timeout
+                sub_ele(node, 'confirm-timeout').text = str(confirm_timeout)
         if log is not None and len(log) > 0:
             sub_ele(node, 'log').text = log
         return self._request(node)
